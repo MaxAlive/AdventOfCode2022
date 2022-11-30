@@ -1,2 +1,2 @@
-# AdventofCode2022
+# AdventOfCode2022
 Solutions for AOC 2022 (adventofcode.com)
