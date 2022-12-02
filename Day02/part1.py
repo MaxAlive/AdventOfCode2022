@@ -15,7 +15,7 @@ def translateForHumans(data):
 def getWinner(opponent_action, your_action):
     if opponent_action == your_action:
         return "draw"
-    if (actions.index(opponent_action) + 1) % 3 == actions.index(your_action):
+    if your_action == getWinningAction(opponent_action):
         return "win"
     else:
         return "loss"
@@ -23,6 +23,10 @@ def getWinner(opponent_action, your_action):
 
 def getScore(outcome, action):
     return outcome_points[outcome] + action_points[action]
+
+
+def getWinningAction(action):
+    return actions[(actions.index(action)+1) % len(actions)]
 
 
 data = translateForHumans(data)

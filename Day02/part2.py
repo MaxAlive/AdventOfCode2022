@@ -9,15 +9,20 @@ outcome_points = {"win": 6, "draw": 3, "loss": 0}
 
 
 def translateForHumans(data):
-    return [(translate_to_rps[line[0]],
-            getAction(translate_to_rps[line[0]], translate_to_rps[line[1]]))
-            for line in data]
+    result = []
+
+    for line in data:
+        opponent_action = translate_to_rps[line[0]]
+        your_action = getAction(opponent_action, translate_to_rps[line[1]])
+        result.append([opponent_action, your_action])
+
+    return result
 
 
 def getWinner(opponent_action, your_action):
     if opponent_action == your_action:
         return "draw"
-    if (actions.index(opponent_action) + 1) % 3 == actions.index(your_action):
+    if your_action == getWinningAction(opponent_action):
         return "win"
     else:
         return "loss"
@@ -31,8 +36,12 @@ def getAction(opponent_action, prefered_outcome):
     if prefered_outcome == "draw":
         return opponent_action
     if prefered_outcome == "win":
-        return actions[(actions.index(opponent_action)+1) % 3]
-    return actions[(actions.index(opponent_action)-1) % 3]
+        return getWinningAction(opponent_action)
+    return getWinningAction(getWinningAction(opponent_action))
+
+
+def getWinningAction(action):
+    return actions[(actions.index(action)+1) % len(actions)]
 
 
 data = translateForHumans(data)
